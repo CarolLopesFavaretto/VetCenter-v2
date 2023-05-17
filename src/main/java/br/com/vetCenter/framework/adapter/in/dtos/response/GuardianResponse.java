@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GuardianResponse {
 
-    private Long id;
+    private String id;
     private String name;
     private String cpf;
     private Long telephone;
