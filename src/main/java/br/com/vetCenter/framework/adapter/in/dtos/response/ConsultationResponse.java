@@ -1,16 +1,17 @@
-package br.com.vetCenter.domain.entity;
+package br.com.vetCenter.framework.adapter.in.dtos.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Consultation {
+@Builder
+public class ConsultationResponse {
 
     private Long id;
     private String nameVeterinary;
@@ -19,5 +20,5 @@ public class Consultation {
     private String observations;
     private LocalDate date;
     private Boolean regress;
-    private List<Prescription> prescriptions;
+    private Long animalId;
 }
