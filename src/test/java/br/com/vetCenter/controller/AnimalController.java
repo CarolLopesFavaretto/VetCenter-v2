@@ -2,7 +2,7 @@ package br.com.vetCenter.controller;
 
 import br.com.vetCenter.VetCenterV2Application;
 import br.com.vetCenter.application.ports.in.GuardianService;
-import br.com.vetCenter.application.ports.out.GuardianRepository;
+import br.com.vetCenter.framework.adapter.out.persistence.GuardianRepository;
 import br.com.vetCenter.config.TestContainerConfig;
 import br.com.vetCenter.domain.entity.Guardian;
 import br.com.vetCenter.framework.adapter.in.dtos.request.GuardianRequest;

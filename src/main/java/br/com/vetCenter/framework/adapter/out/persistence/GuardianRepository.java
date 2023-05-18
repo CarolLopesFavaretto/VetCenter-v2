@@ -1,4 +1,4 @@
-package br.com.vetCenter.application.ports.out;
+package br.com.vetCenter.framework.adapter.out.persistence;
 
 import br.com.vetCenter.domain.entity.Guardian;
 import org.springframework.data.mongodb.repository.MongoRepository;

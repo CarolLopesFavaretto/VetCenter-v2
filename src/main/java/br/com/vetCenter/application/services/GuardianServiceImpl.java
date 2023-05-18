@@ -1,7 +1,7 @@
 package br.com.vetCenter.application.services;
 
 import br.com.vetCenter.application.ports.in.GuardianService;
-import br.com.vetCenter.application.ports.out.GuardianRepository;
+import br.com.vetCenter.framework.adapter.out.persistence.GuardianRepository;
 import br.com.vetCenter.domain.entity.Guardian;
 import br.com.vetCenter.framework.adapter.in.dtos.mappers.GuardianMapper;
 import br.com.vetCenter.framework.adapter.in.dtos.request.GuardianRequest;

@@ -11,4 +11,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongoadmin
       - MONGO_INITDB_ROOT_PASSWORD=mongoadmin
-    image: mongo
+      - MONGO_INITDB_DATABASE=db_vetcenter
+    image: mongo:latest
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
