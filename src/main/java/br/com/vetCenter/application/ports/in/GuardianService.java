@@ -1,5 +1,6 @@
 package br.com.vetCenter.application.ports.in;
 
+import br.com.vetCenter.domain.entity.Guardian;
 import br.com.vetCenter.framework.adapter.in.dtos.request.GuardianRequest;
 import br.com.vetCenter.framework.adapter.in.dtos.response.GuardianResponse;
 
@@ -12,9 +13,9 @@ public interface GuardianService {
 
     List<GuardianResponse> findAll();
 
-    Optional<GuardianResponse> findById(Long id);
+    Optional<GuardianResponse> findById(String id);
 
-    GuardianResponse update(Long id, GuardianRequest request);
+    GuardianResponse update(String id, GuardianRequest request);
 
-    void deleteById(Long id);
+    void deleteById(String id);
 }

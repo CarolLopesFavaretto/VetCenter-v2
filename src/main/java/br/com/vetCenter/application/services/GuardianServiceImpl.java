@@ -8,6 +8,8 @@ import br.com.vetCenter.framework.adapter.in.dtos.request.GuardianRequest;
 import br.com.vetCenter.framework.adapter.in.dtos.response.GuardianResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,22 +33,22 @@ public class GuardianServiceImpl implements GuardianService {
 
     @Override
     public List<GuardianResponse> findAll() {
+        List<Guardian> guardians = repository.findAll();
+        return mapper.toCollectionModel(guardians);
+    }
+
+    @Override
+    public Optional<GuardianResponse> findById(@RequestParam String id) {
+        return repository.findById(id).map(guardian -> (mapper.toModel(guardian)));
+    }
+
+    @Override
+    public GuardianResponse update(String id, GuardianRequest request) {
         return null;
-
     }
 
     @Override
-    public Optional<GuardianResponse> findById(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public GuardianResponse update(Long id, GuardianRequest request) {
-        return null;
-    }
-
-    @Override
-    public void deleteById(Long id) {
-
+    public void deleteById(String id) {
+        repository.deleteById(id);
     }
 }
