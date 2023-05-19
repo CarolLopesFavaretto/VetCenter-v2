@@ -5,6 +5,7 @@ import br.com.vetCenter.framework.adapter.in.dtos.request.GuardianRequest;
 import br.com.vetCenter.framework.adapter.in.dtos.response.GuardianResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,8 +42,7 @@ public class GuardianController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleted(@PathVariable String id) {
-        service.deleteById(id);
+    public ResponseEntity<Void> deleted(@PathVariable String id) {
+        return service.deleteById(id);
     }
-
 }

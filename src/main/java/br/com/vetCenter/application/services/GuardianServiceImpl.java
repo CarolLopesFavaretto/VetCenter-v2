@@ -8,6 +8,7 @@ import br.com.vetCenter.framework.adapter.in.dtos.response.GuardianResponse;
 import br.com.vetCenter.framework.adapter.out.persistence.GuardianRepository;
 import br.com.vetCenter.framework.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,7 +54,14 @@ public class GuardianServiceImpl implements GuardianService {
     }
 
     @Override
-    public void deleteById(String id) {
-        repository.deleteById(id);
+    public ResponseEntity<Void> deleteById(String id) {
+        Optional<Guardian> findId = repository.findById(id);
+        if (findId.isPresent()) {
+            repository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 }
