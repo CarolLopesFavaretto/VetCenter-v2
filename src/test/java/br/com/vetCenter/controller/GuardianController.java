@@ -22,7 +22,7 @@ import java.util.List;
 @SpringBootTest(classes = VetCenterV2Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = TestContainerConfig.class)
 @RunWith(SpringRunner.class)
-public class AnimalController {
+public class GuardianController {
 
 
     @Autowired

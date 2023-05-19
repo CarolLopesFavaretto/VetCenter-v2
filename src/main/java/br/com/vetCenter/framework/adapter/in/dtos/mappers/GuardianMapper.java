@@ -8,8 +8,6 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface GuardianMapper {
@@ -21,6 +19,4 @@ public interface GuardianMapper {
     Guardian toObject(GuardianRequest request);
 
     List<GuardianResponse> toCollectionModel(List<Guardian> guardians);
-
-
 }

@@ -33,11 +33,16 @@ public class GuardianController {
         return service.findById(id);
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<GuardianResponse> updated(@PathVariable String id, @RequestBody GuardianRequest request) {
+        return service.update(id, request);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleted(@PathVariable String id) {
         service.deleteById(id);
     }
-
 
 }

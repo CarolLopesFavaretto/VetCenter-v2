@@ -1,15 +1,14 @@
 package br.com.vetCenter.application.services;
 
 import br.com.vetCenter.application.ports.in.GuardianService;
-import br.com.vetCenter.framework.adapter.out.persistence.GuardianRepository;
 import br.com.vetCenter.domain.entity.Guardian;
 import br.com.vetCenter.framework.adapter.in.dtos.mappers.GuardianMapper;
 import br.com.vetCenter.framework.adapter.in.dtos.request.GuardianRequest;
 import br.com.vetCenter.framework.adapter.in.dtos.response.GuardianResponse;
+import br.com.vetCenter.framework.adapter.out.persistence.GuardianRepository;
+import br.com.vetCenter.framework.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,13 +37,19 @@ public class GuardianServiceImpl implements GuardianService {
     }
 
     @Override
-    public Optional<GuardianResponse> findById(@RequestParam String id) {
+    public Optional<GuardianResponse> findById(String id) {
         return repository.findById(id).map(guardian -> (mapper.toModel(guardian)));
     }
 
     @Override
-    public GuardianResponse update(String id, GuardianRequest request) {
-        return null;
+    public Optional<GuardianResponse> update(String id, GuardianRequest request) throws ResourceNotFoundException {
+        return repository.findById(id).map(guardian -> {
+            guardian.setCpf(request.getCpf());
+            guardian.setName(request.getName());
+            guardian.setTelephone(request.getTelephone());
+            Guardian guardianUpdate = repository.save(guardian);
+            return Optional.of(mapper.toModel(guardianUpdate));
+        }).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
     }
 
     @Override
