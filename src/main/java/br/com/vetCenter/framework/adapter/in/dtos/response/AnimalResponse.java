@@ -1,9 +1,12 @@
 package br.com.vetCenter.framework.adapter.in.dtos.response;
 
+import br.com.vetCenter.domain.entity.Consultation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -11,10 +14,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AnimalResponse {
 
-    private Long id;
+    private String id;
     private String name;
     private Integer age;
     private String type;
     private String race;
-    private Long guardianId;
+    private List<Consultation> consultations;
 }

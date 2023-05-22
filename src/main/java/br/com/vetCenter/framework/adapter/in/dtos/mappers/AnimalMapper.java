@@ -16,5 +16,7 @@ public interface AnimalMapper {
 
     Animal toObject(AnimalRequest request);
 
+    Animal toObjectGuardianId(String guardianId, AnimalRequest request);
+
     AnimalResponse toObj (AnimalRequest request);
 }

@@ -17,4 +17,5 @@ public class GuardianRequest {
     private String name;
     private String cpf;
     private Long telephone;
+    private List<Animal> animals;
 }
