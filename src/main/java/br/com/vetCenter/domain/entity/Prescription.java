@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Prescription {
 
-    private Long id;
+    private String id;
     private String medication;
     private LocalDate date;
 }
