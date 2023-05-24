@@ -2,7 +2,6 @@ package br.com.vetCenter.application.services;
 
 import br.com.vetCenter.application.ports.in.AnimalService;
 import br.com.vetCenter.application.ports.in.GuardianService;
-import br.com.vetCenter.domain.entity.Animal;
 import br.com.vetCenter.domain.entity.Guardian;
 import br.com.vetCenter.framework.adapter.in.dtos.mappers.GuardianMapper;
 import br.com.vetCenter.framework.adapter.in.dtos.request.GuardianRequest;
@@ -67,6 +66,5 @@ public class GuardianServiceImpl implements GuardianService {
         } else {
             return ResponseEntity.notFound().build();
         }
-
     }
 }
