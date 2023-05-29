@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Consultation {
 
-    private Long id;
+    private String id;
     private String nameVeterinary;
     private Double value;
     private String cause;

@@ -3,6 +3,7 @@ package br.com.vetCenter.repository;
 import br.com.vetCenter.VetCenterV2Application;
 import br.com.vetCenter.config.TestContainerConfig;
 import br.com.vetCenter.data.VetCenterData;
+import br.com.vetCenter.domain.entity.Animal;
 import br.com.vetCenter.domain.entity.Guardian;
 import br.com.vetCenter.framework.adapter.out.persistence.GuardianRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +68,7 @@ public class GuardianRepositoryTest {
         Assert.assertEquals(guardianDb.getTelephone(), guardian.getTelephone());
         Assert.assertEquals(guardianDb.getName(), guardian.getName());
         Assert.assertEquals(guardianDb.getCpf(), guardian.getCpf());
+
 
         //      Deletando e validando
 

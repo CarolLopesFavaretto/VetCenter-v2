@@ -13,12 +13,11 @@ import java.time.LocalDate;
 @Builder
 public class ConsultationResponse {
 
-    private Long id;
+    private String id;
     private String nameVeterinary;
     private Double value;
     private String cause;
     private String observations;
     private LocalDate date;
     private Boolean regress;
-    private Long animalId;
 }

@@ -43,7 +43,7 @@ public class AnimalServiceImpl implements AnimalService {
             guardian.getAnimals().add(animal);
             return guardianMapper.toModel(repository.save(guardian));
         }
-        throw new ResourceNotFoundException("Guardian invalido");
+        throw new ResourceNotFoundException("Guardian invalid");
     }
 
     @Override
@@ -61,9 +61,9 @@ public class AnimalServiceImpl implements AnimalService {
                 animal.setType(request.getType());
                 return guardianMapper.toModel(repository.save(guardian));
             }
-            throw new ResourceNotFoundException("Animal invalido");
+            throw new ResourceNotFoundException("Animal invalid");
         }
-        throw new ResourceNotFoundException("Guardian invalido");
+        throw new ResourceNotFoundException("Guardian invalid");
     }
 
     @Override
@@ -76,6 +76,6 @@ public class AnimalServiceImpl implements AnimalService {
 
             return ResponseEntity.noContent().build();
         }
-        throw new ResourceNotFoundException("Guardian invalido");
+        throw new ResourceNotFoundException("Guardian invalid");
     }
 }
