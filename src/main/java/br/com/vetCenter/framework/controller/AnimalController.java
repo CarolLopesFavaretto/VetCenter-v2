@@ -22,7 +22,7 @@ public class AnimalController {
     }
 
     @PutMapping("/{guardianId}/animals/{animalId}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public GuardianResponse updated(@PathVariable("guardianId") String guardianId,
                                     @PathVariable("animalId") String animalId, @RequestBody AnimalRequest request) {
         return animalService.update(guardianId, animalId, request);
