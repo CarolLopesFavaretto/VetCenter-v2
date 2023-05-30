@@ -3,6 +3,7 @@ package br.com.vetCenter.controller;
 import br.com.vetCenter.VetCenterV2Application;
 import br.com.vetCenter.application.ports.in.GuardianService;
 import br.com.vetCenter.config.TestContainerConfig;
+import br.com.vetCenter.data.VetCenterData;
 import br.com.vetCenter.framework.adapter.in.dtos.request.GuardianRequest;
 import br.com.vetCenter.framework.adapter.in.dtos.response.GuardianResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -29,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = VetCenterV2Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = TestContainerConfig.class)
 @RunWith(SpringRunner.class)
-public class GuardianController {
+public class GuardianControllerTest {
 
 
     @Autowired
@@ -43,12 +44,8 @@ public class GuardianController {
 
     @Test
     public void shouldCreatedGuardian() throws Exception {
-        GuardianRequest guardian = GuardianRequest.builder()
-                .name("Carol")
-                .cpf("41246532874")
-                .telephone(1140543186L)
-                .build();
 
+        GuardianRequest guardian = VetCenterData.guardian();
         service.create(guardian);
 
         mvc.perform(MockMvcRequestBuilders.post("/guardian")
@@ -60,17 +57,10 @@ public class GuardianController {
 
     @Test
     public void shouldFindAllGuardians() throws Exception {
-        GuardianRequest guardian = GuardianRequest.builder()
-                .name("Amanda")
-                .cpf("41246532874")
-                .telephone(1140543186L)
-                .name("Camila")
-                .cpf("41246532874")
-                .telephone(1140543186L)
-                .name("Carol")
-                .cpf("41246532874")
-                .telephone(1140543186L)
-                .build();
+        GuardianRequest guardian = VetCenterData.guardian();
+        GuardianRequest guardian1 = VetCenterData.guardian();
+        GuardianRequest guardian2 = VetCenterData.guardian();
+
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/guardian")
@@ -92,13 +82,9 @@ public class GuardianController {
 
     @Test
     public void shouldFindById() throws Exception {
-        GuardianRequest guardian = GuardianRequest.builder()
-                .name("Carol")
-                .cpf("41246532874")
-                .telephone(1140543186L)
-                .build();
-        GuardianResponse guardianResponse = service.create(guardian);
 
+        GuardianRequest guardian = VetCenterData.guardian();
+        GuardianResponse guardianResponse = service.create(guardian);
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/guardian/{id}", guardianResponse.getId())
@@ -116,12 +102,7 @@ public class GuardianController {
     @Test
     public void shouldUpdateGuardian() throws Exception {
 
-        GuardianRequest guardian = GuardianRequest.builder()
-                .name("Carol")
-                .cpf("41246532874")
-                .telephone(1140543186L)
-                .build();
-
+        GuardianRequest guardian = VetCenterData.guardian();
         GuardianResponse guardianResponse = service.create(guardian);
 
         mvc.perform(MockMvcRequestBuilders
@@ -141,12 +122,8 @@ public class GuardianController {
 
     @Test
     public void shouldDeleteGuardian() throws Exception {
-        GuardianRequest guardian = GuardianRequest.builder()
-                .name("Carol")
-                .cpf("41246532874")
-                .telephone(1140543186L)
-                .build();
 
+        GuardianRequest guardian = VetCenterData.guardian();
         GuardianResponse guardianResponse = service.create(guardian);
 
         mvc.perform(MockMvcRequestBuilders.delete("/guardian/{id}", guardianResponse.getId())
@@ -155,6 +132,5 @@ public class GuardianController {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
-
 
 }

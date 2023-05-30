@@ -4,6 +4,7 @@ import br.com.vetCenter.domain.entity.Animal;
 import br.com.vetCenter.domain.entity.Consultation;
 import br.com.vetCenter.domain.entity.Guardian;
 import br.com.vetCenter.domain.entity.Prescription;
+import br.com.vetCenter.framework.adapter.in.dtos.request.GuardianRequest;
 
 import java.time.LocalDate;
 
@@ -32,7 +33,7 @@ public class VetCenterData {
 
     public static Consultation getConsultation() {
         Consultation consultation = new Consultation();
-        consultation.setId(String.valueOf(1L));
+        consultation.setId("123456789");
         consultation.setNameVeterinary("Maria");
         consultation.setCause("coluna");
         consultation.setDate(LocalDate.now());
@@ -48,5 +49,14 @@ public class VetCenterData {
         prescription.setMedication("Dipirona");
         prescription.setDate(LocalDate.now());
         return prescription;
+    }
+
+    public static GuardianRequest guardian() {
+        GuardianRequest request = GuardianRequest.builder()
+                .name("Carol")
+                .cpf("41246532874")
+                .telephone(1140543186L)
+                .build();
+        return request;
     }
 }

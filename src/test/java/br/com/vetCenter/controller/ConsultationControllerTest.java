@@ -5,7 +5,8 @@ import br.com.vetCenter.application.ports.in.GuardianService;
 import br.com.vetCenter.config.TestContainerConfig;
 import br.com.vetCenter.data.VetCenterData;
 import br.com.vetCenter.domain.entity.Animal;
-import br.com.vetCenter.framework.adapter.in.dtos.request.AnimalRequest;
+import br.com.vetCenter.domain.entity.Consultation;
+import br.com.vetCenter.framework.adapter.in.dtos.request.ConsultationRequest;
 import br.com.vetCenter.framework.adapter.in.dtos.request.GuardianRequest;
 import br.com.vetCenter.framework.adapter.in.dtos.response.GuardianResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -31,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = VetCenterV2Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = TestContainerConfig.class)
 @RunWith(SpringRunner.class)
-public class AnimalControllerTest {
+public class ConsultationControllerTest {
 
     @Autowired
     private GuardianService service;
@@ -43,43 +45,59 @@ public class AnimalControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void shouldCreatedAnimalByGuardian() throws Exception {
+    public void shouldCreatedConsultationByGuardian() throws Exception {
 
         GuardianRequest guardian = VetCenterData.guardian();
 
         Animal animal = VetCenterData.getAnimal();
 
-        GuardianResponse guardianResponse = service.create(guardian);
-
-
-        mvc.perform(MockMvcRequestBuilders.post("/animal/{guardianId}", guardianResponse.getId())
-                        .content(objectMapper.writeValueAsString(animal))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    public void shouldUpdateAnimalByGuardian() throws Exception {
-
-        GuardianRequest guardian = VetCenterData.guardian();
-
-        Animal animal = VetCenterData.getAnimal();
+        Consultation consultation = VetCenterData.getConsultation();
 
         guardian.setAnimals(new ArrayList<>());
         guardian.getAnimals().add(animal);
 
         GuardianResponse guardianResponse = service.create(guardian);
 
-        AnimalRequest requestUpdate = AnimalRequest.builder()
-                .name("Lolo")
-                .age(5)
-                .race("vira lata")
-                .type("canino")
+
+        mvc.perform(MockMvcRequestBuilders.post(
+                                "/consultation/guardian/{guardianId}/animal/{animalId}", guardianResponse.getId(), animal.getId())
+                        .content(objectMapper.writeValueAsString(consultation))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void shouldUpdateConsultationByGuardian() throws Exception {
+
+        GuardianRequest guardian = VetCenterData.guardian();
+
+        Animal animal = VetCenterData.getAnimal();
+
+        Consultation consultation = VetCenterData.getConsultation();
+
+        animal.setConsultations(new ArrayList<>());
+        animal.getConsultations().add(consultation);
+
+        guardian.setAnimals(new ArrayList<>());
+        guardian.getAnimals().add(animal);
+
+        GuardianResponse guardianResponse = service.create(guardian);
+
+        ConsultationRequest requestUpdate = ConsultationRequest.builder()
+                .nameVeterinary("Maria")
+                .cause("vomito")
+                .observations("mudanca de racao para complemento")
+                .date(LocalDate.now())
+                .value(50.0)
+                .regress(true)
                 .build();
 
+
         mvc.perform(MockMvcRequestBuilders
-                        .put("/animal/{guardianId}/animals/{animalId}", guardianResponse.getId(), animal.getId())
+                        .put("/consultation/guardian/{guardianId}/animal/" +
+                                        "{animalId}/consultations/{consultationId}",
+                                guardianResponse.getId(), animal.getId(), consultation.getId())
                         .content(objectMapper.writeValueAsString(requestUpdate))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -92,19 +110,32 @@ public class AnimalControllerTest {
                     assertThat(resp.getTelephone()).isEqualTo(guardian.getTelephone());
 
                     Animal animalUp = resp.getAnimals().get(0);
-                    assertThat(animalUp.getName()).isEqualTo(requestUpdate.getName());
-                    assertThat(animalUp.getAge()).isEqualTo(requestUpdate.getAge());
-                    assertThat(animalUp.getRace()).isEqualTo(requestUpdate.getRace());
-                    assertThat(animalUp.getType()).isEqualTo(requestUpdate.getType());
+                    assertThat(animalUp.getName()).isEqualTo(animal.getName());
+                    assertThat(animalUp.getAge()).isEqualTo(animal.getAge());
+                    assertThat(animalUp.getRace()).isEqualTo(animal.getRace());
+                    assertThat(animalUp.getType()).isEqualTo(animal.getType());
+
+                    Consultation consultationUp = animalUp.getConsultations().get(0);
+                    assertThat(consultationUp.getNameVeterinary()).isEqualTo(requestUpdate.getNameVeterinary());
+                    assertThat(consultationUp.getCause()).isEqualTo(requestUpdate.getCause());
+                    assertThat(consultationUp.getObservations()).isEqualTo(requestUpdate.getObservations());
+                    assertThat(consultationUp.getDate()).isEqualTo(requestUpdate.getDate());
+                    assertThat(consultationUp.getValue()).isEqualTo(requestUpdate.getValue());
+                    assertThat(consultationUp.getRegress()).isEqualTo(requestUpdate.getRegress());
                 });
     }
 
     @Test
-    public void shouldDeletedAnimalByGuardian() throws Exception {
+    public void shouldDeletedConsultationByGuardian() throws Exception{
 
         GuardianRequest guardian = VetCenterData.guardian();
 
         Animal animal = VetCenterData.getAnimal();
+
+        Consultation consultation = VetCenterData.getConsultation();
+
+        animal.setConsultations(new ArrayList<>());
+        animal.getConsultations().add(consultation);
 
         guardian.setAnimals(new ArrayList<>());
         guardian.getAnimals().add(animal);
@@ -113,13 +144,13 @@ public class AnimalControllerTest {
 
 
         mvc.perform(MockMvcRequestBuilders
-                        .delete("/animal/{guardianId}/animals/{animalId}", guardianResponse.getId(), animal.getId())
-                        .content(objectMapper.writeValueAsString(animal))
+                        .delete("/consultation/guardian/{guardianId}/animal/" +
+                                        "{animalId}/consultations/{consultationId}",
+                                guardianResponse.getId(), animal.getId(), consultation.getId())
+                        .content(objectMapper.writeValueAsString(consultation))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
-
     }
 
 }
-
