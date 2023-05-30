@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,9 +38,7 @@ public class ConsultationServiceImpl implements ConsultationService {
                     .filter(animal -> animal.getId().equals(animalId)).findFirst();
             if (optAnimal.isPresent()) {
                 Animal animal = optAnimal.get();
-                if (animal.getConsultations() == null) {
-                    animal.setConsultations(new ArrayList<>());
-                }
+
                 Consultation consultation = consultationMapper.toObject(request);
                 consultation.setId(UUID.randomUUID().toString());
                 animal.getConsultations().add(consultation);

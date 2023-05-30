@@ -13,8 +13,7 @@ import java.time.LocalDate;
 @Builder
 public class PrescriptionResponse {
 
-    private Long id;
+    private String id;
     private String medication;
     private LocalDate date;
-    private Long consultationId;
 }

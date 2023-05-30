@@ -15,5 +15,4 @@ public class PrescriptionRequest {
 
     private String medication;
     private LocalDate date;
-    private Long consultationId;
 }
