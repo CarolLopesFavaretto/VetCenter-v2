@@ -63,12 +63,56 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     public GuardianResponse update(String guardianId, String animalId, String consultationId, String prescriptionId,
                                    PrescriptionRequest request) {
 
-        return null;
+        Optional<Guardian> optionalGuardian = repository.findById(guardianId);
+        if (optionalGuardian.isPresent()) {
+            Guardian guardian = optionalGuardian.get();
+            Optional<Animal> optAnimal = guardian.getAnimals().stream()
+                    .filter(animal -> animal.getId().equals(animalId)).findFirst();
+            if (optAnimal.isPresent()) {
+                Animal animal = optAnimal.get();
+                Optional<Consultation> optionalConsultation = animal.getConsultations().stream()
+                        .filter(consultation -> consultation.getId().equals(consultationId)).findFirst();
+                if (optionalConsultation.isPresent()) {
+                    Consultation consultation = optionalConsultation.get();
+                    Optional<Prescription> optionalPrescription = consultation.getPrescriptions().stream()
+                            .filter(prescription -> prescription.getId().equals(prescriptionId)).findFirst();
+                    if (optionalPrescription.isPresent()) {
+                        Prescription prescription = optionalPrescription.get();
+                        prescription.setDate(request.getDate());
+                        prescription.setMedication(request.getMedication());
+                        return guardianMapper.toModel(repository.save(guardian));
+                    }
+                    throw new ResourceNotFoundException("Prescription invalid");
+                }
+                throw new ResourceNotFoundException("Consultation invalid");
+            }
+            throw new ResourceNotFoundException("Animal invalid");
+        }
+        throw new ResourceNotFoundException("Guardian invalid");
     }
 
     @Override
     public ResponseEntity<Void> deleteById(String guardianId, String animalId, String consultationId,
                                            String prescriptionId) {
-        return null;
+        Optional<Guardian> optionalGuardian = repository.findById(guardianId);
+        if (optionalGuardian.isPresent()) {
+            Guardian guardian = optionalGuardian.get();
+            Optional<Animal> optAnimal = guardian.getAnimals().stream()
+                    .filter(animal -> animal.getId().equals(animalId)).findFirst();
+            if (optAnimal.isPresent()) {
+                Animal animal = optAnimal.get();
+                Optional<Consultation> optionalConsultation = animal.getConsultations().stream()
+                        .filter(consultation -> consultation.getId().equals(consultationId)).findFirst();
+                if (optionalConsultation.isPresent()) {
+                    Consultation consultation = optionalConsultation.get();
+                    consultation.getPrescriptions().removeIf(prescription ->
+                            prescriptionId.equals(prescription.getId()));
+                    repository.save(guardian);
+                }
+                return ResponseEntity.noContent().build();
+            }
+            throw new ResourceNotFoundException("Animal invalid");
+        }
+        throw new ResourceNotFoundException("Guardian invalid");
     }
 }

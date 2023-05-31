@@ -35,9 +35,7 @@ public class AnimalServiceImpl implements AnimalService {
         Optional<Guardian> optionalGuardian = repository.findById(guardianId);
         if (optionalGuardian.isPresent()) {
             Guardian guardian = optionalGuardian.get();
-            if (guardian.getAnimals() == null) {
-                guardian.setAnimals(new ArrayList<>());
-            }
+
             Animal animal = mapper.toObject(request);
             animal.setId(UUID.randomUUID().toString());
             guardian.getAnimals().add(animal);
